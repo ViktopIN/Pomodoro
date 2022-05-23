@@ -13,6 +13,7 @@
 		35221BB6283C1EE800765721 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35221BB4283C1EE800765721 /* Main.storyboard */; };
 		35221BB8283C1EE900765721 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35221BB7283C1EE900765721 /* Assets.xcassets */; };
 		35221BBB283C1EE900765721 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35221BB9283C1EE900765721 /* LaunchScreen.storyboard */; };
+		356E736F283C2110006FCBA6 /* AnimatableCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356E736E283C2110006FCBA6 /* AnimatableCircleView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		35221BB7283C1EE900765721 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		35221BBA283C1EE900765721 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		35221BBC283C1EE900765721 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		356E736E283C2110006FCBA6 /* AnimatableCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatableCircleView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				35221BAE283C1EE800765721 /* AppDelegate.swift */,
 				35221BB0283C1EE800765721 /* SceneDelegate.swift */,
 				35221BB2283C1EE800765721 /* ViewController.swift */,
+				356E736E283C2110006FCBA6 /* AnimatableCircleView.swift */,
 				35221BB4283C1EE800765721 /* Main.storyboard */,
 				35221BB7283C1EE900765721 /* Assets.xcassets */,
 				35221BB9283C1EE900765721 /* LaunchScreen.storyboard */,
@@ -138,6 +141,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				356E736F283C2110006FCBA6 /* AnimatableCircleView.swift in Sources */,
 				35221BB3283C1EE800765721 /* ViewController.swift in Sources */,
 				35221BAF283C1EE800765721 /* AppDelegate.swift in Sources */,
 				35221BB1283C1EE800765721 /* SceneDelegate.swift in Sources */,
