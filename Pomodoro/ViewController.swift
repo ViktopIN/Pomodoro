@@ -59,21 +59,40 @@ class ViewController: UIViewController {
             self.isWorkTime = true
             
             self.timer.invalidate()
-            
+                        
             /// Model
             self.refreshButton()
             
+            self.pauseButton.isHidden = true
        
         } else {
             
             self.tappedButton()
             self.basicAnimation()
             
+            self.pauseButton.isHidden = false
+
             self.isStarted.toggle()
         }
     })
     
+    lazy var pauseButton: UIButton = {
+        var button = UIButton()
+                
+        button.setBackgroundImage(UIImage(systemName: "pause")?.withTintColor(mainColor, renderingMode: .alwaysOriginal), for: .normal)
+       
+        button.isHidden = true
+        
+        button.addTarget(self, action: #selector(pausedTimer), for: .touchUpInside)
+        
+        return button
+    }()
+    
 // MARK: - Methods
+    
+    @objc func pausedTimer() {
+        
+    }
     
     var timer = Timer()
 
@@ -140,7 +159,8 @@ class ViewController: UIViewController {
             }
         }
     }
-                                       
+    
+    
 // MARK: - Lifecycle
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -158,6 +178,7 @@ class ViewController: UIViewController {
     private func setupHierarchy() {
         view.addSubview(circleToggle)
         view.addSubview(button)
+        view.addSubview(pauseButton)
         view.addSubview(timerLabel)
     }
     
@@ -169,6 +190,14 @@ class ViewController: UIViewController {
             button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             button.widthAnchor.constraint(equalToConstant: Metric.buttonSize),
             button.heightAnchor.constraint(equalToConstant: Metric.buttonSize)
+        ])
+        
+        pauseButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            pauseButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: Metric.buttonYOffset + Metric.buttonSize),
+            pauseButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            pauseButton.widthAnchor.constraint(equalToConstant: Metric.buttonSize),
+            pauseButton.heightAnchor.constraint(equalToConstant: Metric.buttonSize)
         ])
         
         timerLabel.translatesAutoresizingMaskIntoConstraints = false
