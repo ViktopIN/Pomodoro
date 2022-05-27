@@ -34,12 +34,6 @@ extension ViewController {
         self.pauseButton.isHighlighted = false
 
         DispatchQueue.main.async {
-
-            self.circleToggle.timerDuration = Metric.workModeDuration
-            self.circleToggle.miniCircleView.layer.borderColor = self.mainColor.cgColor
-            self.circleToggle.miniFilledCircleView.backgroundColor = self.mainColor
-            
-            self.circleToggle.stopAnimation()
             
             self.shapeLayer.strokeEnd = 0
             self.shapeLayer.removeAllAnimations()

@@ -22,17 +22,6 @@ class ViewController: UIViewController, CAAnimationDelegate {
         choosenColor(value: isWorkTime)
     }
     
-   lazy var circleToggle: AnimatableCircleView = {
-        
-        var mainViewsPoint = CGPoint(x: (view.frame.width / 2) - (Metric.toggleCircleSize.width / 2),
-                                     y: (view.frame.height / 2) - (Metric.toggleCircleSize.height / 2))
-        var mainCircle = AnimatableCircleView(frame: CGRect(origin: mainViewsPoint, size: Metric.toggleCircleSize),
-                                              mainColor: mainColor,
-                                              durationTimer: durationTimer)
-        
-        return mainCircle
-        
-    }()
     
      lazy var timerLabel: UILabel = {
          
@@ -54,7 +43,7 @@ class ViewController: UIViewController, CAAnimationDelegate {
  
     /// Объявление основной кнопки с ее механизмом
     lazy var button = OutlineButton(configuration: configuration,
-                                    primaryAction: UIAction {  _ in self.circleToggle.startAnimating()
+                                    primaryAction: UIAction { _ in self.shapeLayer
         if self.isStarted || self.isGobackward == true {
             
             self.isStarted.toggle()
@@ -109,20 +98,25 @@ class ViewController: UIViewController, CAAnimationDelegate {
         
         if !isStarted {
             
-            basicAnimation()
-            
             resumeAnimation()
             
             tappedButton()
             button.isSelected.toggle()
             
             isStarted = true
+            print("\(isWorkTime)")
+            
+            if !isWorkTime {
+                DispatchQueue.main.async {
+                    
+                    self.pauseButton.isHighlighted = true
+
+                }
+            }
+            
             pauseButton.isSelected = false
             
-            
         } else {
-            
-            basicAnimation()
         
             pauseAnimation()
             
@@ -131,7 +125,8 @@ class ViewController: UIViewController, CAAnimationDelegate {
             isStarted = false
             
             pauseButton.isSelected = true
-            
+            pauseButton.isHighlighted = false
+
         }
     }
     
@@ -173,11 +168,7 @@ class ViewController: UIViewController, CAAnimationDelegate {
                 durationTimer = Metric.workModeDuration
                 
                 DispatchQueue.main.async {
-                    
-                    self.circleToggle.timerDuration = Metric.workModeDuration
-                    self.circleToggle.miniCircleView.layer.borderColor = self.mainColor.cgColor
-                    self.circleToggle.miniFilledCircleView.backgroundColor = self.mainColor
-                    
+                                        
                     self.timerLabel.textColor = self.mainColor
                 }
                 
@@ -188,7 +179,7 @@ class ViewController: UIViewController, CAAnimationDelegate {
                 pauseButton.isHighlighted = true
                 
                 isStarted = true
-                isWorkTime.toggle()
+                isWorkTime = false
                 
                 button.isHighlighted = true
                 
@@ -196,12 +187,7 @@ class ViewController: UIViewController, CAAnimationDelegate {
                 durationTimer = Metric.restModeDuration
     
                 DispatchQueue.main.async {
-                    
-                    self.circleToggle.timerDuration = Metric.restModeDuration
-                    self.circleToggle.miniCircleView.layer.borderColor = self.mainColor.cgColor
-                    self.circleToggle.miniFilledCircleView.backgroundColor = self.mainColor
-                    self.circleToggle.startAnimating()
-                    
+                                        
                     self.tappedButton()
                     self.basicAnimation()
                     
@@ -228,10 +214,10 @@ class ViewController: UIViewController, CAAnimationDelegate {
     
 // MARK: - Settings
     private func setupHierarchy() {
-        view.addSubview(circleToggle)
         view.addSubview(button)
         view.addSubview(pauseButton)
         view.addSubview(timerLabel)
+        view.layer.addSublayer(shapeLayer)
     }
     
     private func setupLayout() {
@@ -269,7 +255,7 @@ class ViewController: UIViewController, CAAnimationDelegate {
     
     func animationCircular() {
         
-        let center = CGPoint(x: circleToggle.frame.width / 2, y: circleToggle.frame.height / 2)
+        let center = view.center
         
         let endAngle = (-CGFloat.pi / 2)
         let startAngle = 2 * CGFloat.pi + endAngle
@@ -286,8 +272,6 @@ class ViewController: UIViewController, CAAnimationDelegate {
         shapeLayer.strokeEnd = 1
         shapeLayer.lineCap = CAShapeLayerLineCap.round
         shapeLayer.strokeColor = mainColor.cgColor
-        
-        circleToggle.layer.addSublayer(shapeLayer)
          
     }
     
@@ -299,8 +283,10 @@ class ViewController: UIViewController, CAAnimationDelegate {
         basicAnimation.duration = CFTimeInterval(durationTimer)
         basicAnimation.fillMode = CAMediaTimingFillMode.forwards
         basicAnimation.isRemovedOnCompletion = true
+        basicAnimation.delegate = self
         
         shapeLayer.add(basicAnimation, forKey: "basicAnimation")
     }
+    
 }
 
