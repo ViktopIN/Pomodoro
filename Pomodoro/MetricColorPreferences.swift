@@ -19,8 +19,8 @@ extension ViewController {
 // MARK: - Metrics
 extension ViewController {
     enum Metric {
-        static var workModeDuration = 10
-        static var restModeDuration = 5
+        static var workModeDuration = 3
+        static var restModeDuration = 2
         
         static var timerLabelFontSize: CGFloat = 75
         static var timerLabelYOffset: CGFloat = -50
@@ -28,7 +28,7 @@ extension ViewController {
         static var toggleCircleSize = CGSize(width: 300, height: 300)
         
         static var buttonSize: CGFloat = 45
-        static var buttonYOffset: CGFloat = 65
+        static var buttonYOffset: CGFloat = 90
         
         static var animatedPathRadius: CGFloat = 150
         static var animatedPathLineWidth: CGFloat = 5

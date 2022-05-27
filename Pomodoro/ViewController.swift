@@ -7,12 +7,14 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, CAAnimationDelegate {
 
 // MARK: - Properties
     private lazy var isWorkTime = true
     
     private lazy var isStarted = false
+    
+    private lazy var isGobackward = false
     
     lazy var durationTimer = Metric.workModeDuration
 
@@ -53,10 +55,12 @@ class ViewController: UIViewController {
     /// Объявление основной кнопки с ее механизмом
     lazy var button = OutlineButton(configuration: configuration,
                                     primaryAction: UIAction {  _ in self.circleToggle.startAnimating()
-        if self.isStarted {
+        if self.isStarted || self.isGobackward == true {
             
             self.isStarted.toggle()
             self.isWorkTime = true
+            
+            self.isGobackward = false
             
             self.timer.invalidate()
                         
@@ -73,14 +77,17 @@ class ViewController: UIViewController {
             self.pauseButton.isHidden = false
 
             self.isStarted.toggle()
+            self.isGobackward = true
         }
     })
     
     lazy var pauseButton: UIButton = {
         var button = UIButton()
                 
-        button.setBackgroundImage(UIImage(systemName: "pause")?.withTintColor(mainColor, renderingMode: .alwaysOriginal), for: .normal)
-       
+        button.setBackgroundImage(UIImage(systemName: "pause")?.withTintColor(Colors.workColor, renderingMode: .alwaysOriginal), for: .normal)
+        button.setBackgroundImage(UIImage(systemName: "pause")?.withTintColor(Colors.restColor, renderingMode: .alwaysOriginal), for: .highlighted)
+        button.setBackgroundImage(UIImage(systemName: "play")?.withTintColor(Colors.workColor, renderingMode: .alwaysOriginal), for: .selected)
+
         button.isHidden = true
         
         button.addTarget(self, action: #selector(pausedTimer), for: .touchUpInside)
@@ -92,6 +99,40 @@ class ViewController: UIViewController {
     
     @objc func pausedTimer() {
         
+        if isWorkTime {
+    
+            pauseButton.setBackgroundImage(UIImage(systemName: "play")?.withTintColor(Colors.workColor, renderingMode: .alwaysOriginal), for: .selected)
+        } else {
+
+            pauseButton.setBackgroundImage(UIImage(systemName: "play")?.withTintColor(Colors.restColor, renderingMode: .alwaysOriginal), for: .selected)
+        }
+        
+        if !isStarted {
+            
+            basicAnimation()
+            
+            resumeAnimation()
+            
+            tappedButton()
+            button.isSelected.toggle()
+            
+            isStarted = true
+            pauseButton.isSelected = false
+            
+            
+        } else {
+            
+            basicAnimation()
+        
+            pauseAnimation()
+            
+            timer.invalidate()
+            
+            isStarted = false
+            
+            pauseButton.isSelected = true
+            
+        }
     }
     
     var timer = Timer()
@@ -116,7 +157,14 @@ class ViewController: UIViewController {
             timer.invalidate()
             
             if isWorkTime == false {
+                
+                isGobackward = false
+                
+                pauseButton.isHidden = true
+                pauseButton.isHighlighted = false
+                
                 button.isHighlighted.toggle()
+                button.isSelected = false
                 
                 isWorkTime.toggle()
                 isStarted.toggle()
@@ -136,10 +184,14 @@ class ViewController: UIViewController {
 
             } else {
                 
+                
+                pauseButton.isHighlighted = true
+                
                 isStarted = true
                 isWorkTime.toggle()
                 
-                button.isHighlighted.toggle()
+                button.isHighlighted = true
+                
                 timerLabel.text = secondConverter(Metric.restModeDuration)
                 durationTimer = Metric.restModeDuration
     
@@ -194,7 +246,7 @@ class ViewController: UIViewController {
         
         pauseButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            pauseButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: Metric.buttonYOffset + Metric.buttonSize),
+            pauseButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: Metric.buttonYOffset - Metric.buttonSize * 1.5),
             pauseButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             pauseButton.widthAnchor.constraint(equalToConstant: Metric.buttonSize),
             pauseButton.heightAnchor.constraint(equalToConstant: Metric.buttonSize)

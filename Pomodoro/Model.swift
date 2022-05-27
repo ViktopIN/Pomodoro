@@ -30,6 +30,9 @@ extension ViewController {
         self.timerLabel.text = self.secondConverter(Metric.workModeDuration)
         self.timerLabel.textColor = self.mainColor
         
+        self.pauseButton.isSelected = false
+        self.pauseButton.isHighlighted = false
+
         DispatchQueue.main.async {
 
             self.circleToggle.timerDuration = Metric.workModeDuration
@@ -38,7 +41,7 @@ extension ViewController {
             
             self.circleToggle.stopAnimation()
             
-            self.shapeLayer.strokeEnd = 1
+            self.shapeLayer.strokeEnd = 0
             self.shapeLayer.removeAllAnimations()
             
             self.durationTimer = Metric.workModeDuration
@@ -51,6 +54,30 @@ extension ViewController {
         guard value else { return ViewController.Colors.restColor }
         return ViewController.Colors.workColor
         
+    }
+    
+    func pauseAnimation() {
+        
+        let pausedTime = shapeLayer.convertTime(CACurrentMediaTime(), from: nil)
+        
+        shapeLayer.speed = 0
+        
+        shapeLayer.timeOffset = pausedTime
+        
+    }
+    
+    func resumeAnimation() {
+        let pausedTime = shapeLayer.timeOffset
+        
+        shapeLayer.speed = 1.0
+        
+        shapeLayer.timeOffset = 0
+        
+        shapeLayer.beginTime = 0
+        
+        let timeSincePaused = shapeLayer.convertTime(CACurrentMediaTime(), from: nil) - pausedTime
+        
+        shapeLayer.beginTime = timeSincePaused
     }
 }
 
