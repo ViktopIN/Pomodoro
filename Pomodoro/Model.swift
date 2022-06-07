@@ -11,7 +11,8 @@ extension ViewController {
     
 // MARK: - Extra methods
     
-    func secondConverter(_ seconds: Int) -> String {
+    func toTextFormatConverter(_ miliseconds: Int) -> String {
+        let seconds = miliseconds / 100
             
         let formatter = DateComponentsFormatter()
         
@@ -27,7 +28,7 @@ extension ViewController {
         button.isSelected = false
         button.isHighlighted = false
         
-        self.timerLabel.text = self.secondConverter(Metric.workModeDuration)
+        self.timerLabel.text = self.toTextFormatConverter(Metric.workModeDuration)
         self.timerLabel.textColor = self.mainColor
         
         self.pauseButton.isSelected = false
@@ -55,22 +56,22 @@ extension ViewController {
         let pausedTime = shapeLayer.convertTime(CACurrentMediaTime(), from: nil)
         
         shapeLayer.speed = 0
-        
+
         shapeLayer.timeOffset = pausedTime
+        print(pausedTime)
         
     }
     
     func resumeAnimation() {
         let pausedTime = shapeLayer.timeOffset
+        print(pausedTime)
         
         shapeLayer.speed = 1.0
-        
-        shapeLayer.timeOffset = 0
-        
         shapeLayer.beginTime = 0
-        
+        shapeLayer.timeOffset = 0
+                
         let timeSincePaused = shapeLayer.convertTime(CACurrentMediaTime(), from: nil) - pausedTime
-        
+        print(timeSincePaused)
         shapeLayer.beginTime = timeSincePaused
     }
 }

@@ -19,8 +19,10 @@ extension ViewController {
 // MARK: - Metrics
 extension ViewController {
     enum Metric {
-        static var workModeDuration = 8
-        static var restModeDuration = 5
+        
+        ///in milliseconds
+        static var workModeDuration = 800
+        static var restModeDuration = 500
         
         static var timerLabelFontSize: CGFloat = 75
         static var timerLabelYOffset: CGFloat = -50
