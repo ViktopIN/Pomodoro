@@ -27,7 +27,7 @@ class ViewController: UIViewController, CAAnimationDelegate {
          
         var label = UILabel()
          
-        label.text = secondConverter(durationTimer)
+        label.text = toTextFormatConverter(durationTimer)
         label.font = UIFont.systemFont(ofSize: Metric.timerLabelFontSize)
         label.textColor = mainColor
          
@@ -134,11 +134,12 @@ class ViewController: UIViewController, CAAnimationDelegate {
     var timer = Timer()
 
     private func tappedButton() {
-        timer = Timer.scheduledTimer(timeInterval: 1,
+        timer = Timer.scheduledTimer(timeInterval: 0.01,
                                      target: self,
                                      selector: #selector(timerAction),
                                      userInfo: nil,
                                      repeats: true)
+        
         button.isSelected.toggle()
       
     }
@@ -146,7 +147,7 @@ class ViewController: UIViewController, CAAnimationDelegate {
     @objc func timerAction() {
         durationTimer -= 1
         
-        timerLabel.text = secondConverter(durationTimer)
+        timerLabel.text = toTextFormatConverter(durationTimer)
         
         if durationTimer == 0 {
             
@@ -165,7 +166,7 @@ class ViewController: UIViewController, CAAnimationDelegate {
                 isWorkTime.toggle()
                 isStarted.toggle()
                 
-                timerLabel.text = secondConverter(Metric.workModeDuration)
+                timerLabel.text = toTextFormatConverter(Metric.workModeDuration)
                 durationTimer = Metric.workModeDuration
                 
                 DispatchQueue.main.async {
@@ -184,7 +185,7 @@ class ViewController: UIViewController, CAAnimationDelegate {
                 
                 button.isHighlighted = true
                 
-                timerLabel.text = secondConverter(Metric.restModeDuration)
+                timerLabel.text = toTextFormatConverter(Metric.restModeDuration / 100)
                 durationTimer = Metric.restModeDuration
     
                 DispatchQueue.main.async {
@@ -281,7 +282,7 @@ class ViewController: UIViewController, CAAnimationDelegate {
         let basicAnimation = CABasicAnimation(keyPath: "strokeEnd")
         
         basicAnimation.toValue = 0
-        basicAnimation.duration = CFTimeInterval(durationTimer)
+        basicAnimation.duration = CFTimeInterval(durationTimer / 100)
         basicAnimation.fillMode = CAMediaTimingFillMode.forwards
         basicAnimation.isRemovedOnCompletion = true
         basicAnimation.delegate = self
