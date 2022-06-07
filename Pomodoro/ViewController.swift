@@ -46,7 +46,7 @@ class ViewController: UIViewController, CAAnimationDelegate {
                                     primaryAction: UIAction { _ in self.shapeLayer
         if self.isStarted || self.isGobackward == true {
             
-            self.isStarted.toggle()
+            self.isStarted = false
             self.isWorkTime = true
             
             self.isGobackward = false
@@ -54,6 +54,7 @@ class ViewController: UIViewController, CAAnimationDelegate {
             self.timer.invalidate()
                         
             /// Model
+            self.resumeAnimation()
             self.refreshButton()
             
             self.pauseButton.isHidden = true
