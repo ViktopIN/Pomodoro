@@ -12,8 +12,14 @@ extension ViewController {
 // MARK: - Extra methods
     
     func toTextFormatConverter(_ miliseconds: Int) -> String {
-        let seconds = miliseconds / 100
-            
+        var seconds = Int()
+        if miliseconds % 100 == 0 {
+            seconds = miliseconds / 100
+        } else {
+        
+            seconds = miliseconds / 100 + 1
+        }
+
         let formatter = DateComponentsFormatter()
         
         formatter.allowedUnits = [.minute, .second]

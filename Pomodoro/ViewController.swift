@@ -26,7 +26,7 @@ class ViewController: UIViewController, CAAnimationDelegate {
      lazy var timerLabel: UILabel = {
          
         var label = UILabel()
-         
+        
         label.text = toTextFormatConverter(durationTimer)
         label.font = UIFont.systemFont(ofSize: Metric.timerLabelFontSize)
         label.textColor = mainColor
